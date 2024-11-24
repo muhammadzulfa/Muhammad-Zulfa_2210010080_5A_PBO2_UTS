@@ -1,3 +1,10 @@
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -7,13 +14,32 @@
  *
  * @author mhmmd
  */
-public class UbahAgenda extends javax.swing.JFrame {
+public class UbahAgenda extends javax.swing.JDialog {
 
+    // Variabel untuk menyimpan data agenda
+    private int agendaIndex;
+    
     /**
      * Creates new form UbahAgenda
      */
-    public UbahAgenda() {
+    public UbahAgenda(java.awt.Frame parent, int agendaIndex, String tanggal, String judul, String deskripsi, String kategori, String status) throws ParseException {
+        super(parent, true);
         initComponents();
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  // Sesuaikan format tanggal
+        Date date = sdf.parse(tanggal);  // Parsing String ke Date
+        dcTanggal.setDate(date); // Set tanggal pada JDateChooser
+            
+        txtJudul.setText(judul);
+        textareaDeskripsi.setText(deskripsi);
+        cbbKategori.setSelectedItem(kategori);
+        
+        // Menandai checkbox jika status adalah "Selesai"
+        if (status.equals("Selesai")) {
+            cbSelesai.setSelected(true);
+        }
+        
+        this.agendaIndex = agendaIndex;
     }
 
     /**
@@ -42,6 +68,7 @@ public class UbahAgenda extends javax.swing.JFrame {
         cbSelesai = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Ubah Agenda");
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Source Sans Pro", 1, 24)); // NOI18N
@@ -73,6 +100,11 @@ public class UbahAgenda extends javax.swing.JFrame {
 
         btnSimpan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnSimpan.setText("Simpan");
+        btnSimpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpanActionPerformed(evt);
+            }
+        });
 
         btnBatal.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnBatal.setText("Batal");
@@ -166,6 +198,24 @@ public class UbahAgenda extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnBatalActionPerformed
 
+    private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
+        // Ambil data yang diubah di form
+        Date tanggalBaru = dcTanggal.getDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String tanggalBaruFormatted = sdf.format(tanggalBaru);
+        
+        String judulBaru = txtJudul.getText();
+        String deskripsiBaru = textareaDeskripsi.getText();
+        String kategoriBaru = cbbKategori.getSelectedItem().toString();
+        String statusBaru = cbSelesai.isSelected() ? "Selesai" : "Belum Selesai";
+
+        AgendaPribadi agenda = new AgendaPribadi(tanggalBaruFormatted, judulBaru, deskripsiBaru, kategoriBaru, statusBaru);
+        ((Dashboard) getParent()).ubahAgenda(agendaIndex, agenda);
+        
+        // Tutup form
+        this.dispose();
+    }//GEN-LAST:event_btnSimpanActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -192,13 +242,6 @@ public class UbahAgenda extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(UbahAgenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new UbahAgenda().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

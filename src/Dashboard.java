@@ -1,5 +1,8 @@
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -58,6 +61,7 @@ public class Dashboard extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Dashboard Agenda Pribadi");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -86,9 +90,21 @@ public class Dashboard extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblAgenda.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblAgendaMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(tblAgenda);
@@ -148,6 +164,33 @@ public class Dashboard extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         getAllData();
     }//GEN-LAST:event_formWindowOpened
+
+    private void tblAgendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAgendaMouseClicked
+        // Mendapatkan indeks baris yang dipilih
+        int row = tblAgenda.getSelectedRow();
+        // System.out.println(row);
+
+        // Cek apakah baris yang dipilih valid
+        if (row != -1) {
+            try {
+                // Ambil data dari tabel berdasarkan indeks baris
+                String tanggal = tblAgenda.getValueAt(row, 0).toString(); // Misal kolom 0 untuk tanggal
+                String judul = tblAgenda.getValueAt(row, 1).toString();   // Misal kolom 1 untuk judul
+                String deskripsi = tblAgenda.getValueAt(row, 2).toString(); // Misal kolom 2 untuk deskripsi
+                String kategori = tblAgenda.getValueAt(row, 3).toString(); // Misal kolom 3 untuk kategori
+                String status = tblAgenda.getValueAt(row, 4).toString();   // Misal kolom 4 untuk status
+                
+                // Dapatkan index baris untuk referensi lebih lanjut
+                int agendaIndex = row;  // Menggunakan indeks baris
+                
+                // Membuka form UbahAgenda dan mengirimkan data yang dipilih beserta index-nya
+                UbahAgenda formUbah = new UbahAgenda(this, agendaIndex, tanggal, judul, deskripsi, kategori, status);
+                formUbah.setVisible(true); // Tampilkan form UbahAgenda
+            } catch (ParseException ex) {
+                Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_tblAgendaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -219,6 +262,19 @@ public class Dashboard extends javax.swing.JFrame {
     
     public void tambahAgenda(Agenda agenda) {
         daftarAgenda.add(agenda);
+        
         isiDataTabel();
+    }
+    
+    public void ubahAgenda(int agendaIndex, Agenda agenda) {
+        // Memastikan bahwa indeks valid
+        if (agendaIndex >= 0 && agendaIndex < daftarAgenda.size()) {
+            // System.out.println("Mengubah agenda dengan index: " + agendaIndex);
+            
+            // Mengganti agenda yang ada pada indeks dengan agenda yang baru
+            daftarAgenda.set(agendaIndex, agenda);
+
+            isiDataTabel();
+        }
     }
 }
