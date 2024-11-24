@@ -1,3 +1,8 @@
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -7,12 +12,16 @@
  *
  * @author mhmmd
  */
-public class TambahAgenda extends javax.swing.JFrame {
-
+public class TambahAgenda extends javax.swing.JDialog {
+    private Dashboard parentForm;
+    
     /**
      * Creates new form TambahAgenda
      */
-    public TambahAgenda() {
+    public TambahAgenda(Dashboard parent) {
+        super(parent, "Tambah Agenda", true);
+        this.parentForm = parent;
+        
         initComponents();
     }
 
@@ -68,10 +77,15 @@ public class TambahAgenda extends javax.swing.JFrame {
         jScrollPane1.setViewportView(textareaDeskripsi);
 
         cbbKategori.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        cbbKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pekerjaan", "Pendidikan", "Keluarga", "Hobi", "Lainnya" }));
+        cbbKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pribadi", "Pekerjaan", "Pendidikan", "Keluarga", "Hobi", "Lainnya" }));
 
         btnSimpan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnSimpan.setText("Simpan");
+        btnSimpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpanActionPerformed(evt);
+            }
+        });
 
         btnBatal.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnBatal.setText("Batal");
@@ -152,6 +166,27 @@ public class TambahAgenda extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnBatalActionPerformed
 
+    private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
+        Date tanggal = dcTanggal.getDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String tanggalFormatted = sdf.format(tanggal);
+        
+        String judul = txtJudul.getText();
+        String deskripsi = textareaDeskripsi.getText();
+        String kategori = cbbKategori.getSelectedItem().toString();
+        String status = "Belum Selesai";
+
+        if (tanggal == null || judul.isEmpty() || deskripsi.isEmpty() || kategori.isEmpty() || status.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Semua data harus diisi", "Peringatan", JOptionPane.WARNING_MESSAGE);
+        } else {
+            // Simpan data agenda ke list di FormAgendaPribadiApp
+            AgendaPribadi agenda = new AgendaPribadi(tanggalFormatted, judul, deskripsi, kategori, status);
+            ((Dashboard) getParent()).tambahAgenda(agenda);
+            
+            this.dispose();  // Tutup form setelah data disimpan
+        }
+    }//GEN-LAST:event_btnSimpanActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -178,13 +213,6 @@ public class TambahAgenda extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(TambahAgenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TambahAgenda().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

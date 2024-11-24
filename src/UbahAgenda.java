@@ -69,7 +69,7 @@ public class UbahAgenda extends javax.swing.JFrame {
         jScrollPane1.setViewportView(textareaDeskripsi);
 
         cbbKategori.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        cbbKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pekerjaan", "Pendidikan", "Keluarga", "Hobi", "Lainnya" }));
+        cbbKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pribadi", "Pekerjaan", "Pendidikan", "Keluarga", "Hobi", "Lainnya" }));
 
         btnSimpan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnSimpan.setText("Simpan");

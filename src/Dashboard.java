@@ -1,3 +1,7 @@
+
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -8,6 +12,7 @@
  * @author mhmmd
  */
 public class Dashboard extends javax.swing.JFrame {
+    private ArrayList<Agenda> daftarAgenda;
 
     /**
      * Creates new form Dashboard
@@ -53,6 +58,11 @@ public class Dashboard extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         btnTambahAgenda.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnTambahAgenda.setText("Tambah Agenda");
@@ -131,9 +141,13 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void btnTambahAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahAgendaActionPerformed
         // Buka form tambah agenda
-        TambahAgenda formTambahAgenda = new TambahAgenda();
+        TambahAgenda formTambahAgenda = new TambahAgenda(this);
         formTambahAgenda.setVisible(true);
     }//GEN-LAST:event_btnTambahAgendaActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        getAllData();
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -185,4 +199,26 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable tblAgenda;
     // End of variables declaration//GEN-END:variables
+
+    private void getAllData() {
+        daftarAgenda = new ArrayList<>();
+        daftarAgenda.add(new AgendaPribadi("2024-11-24", "Liburan ke Bali", "Pergi bersama keluarga", "Pribadi", "Belum Selesai"));
+        
+        isiDataTabel();
+    }
+    
+    private void isiDataTabel() {
+        DefaultTableModel model = (DefaultTableModel) tblAgenda.getModel();
+        model.setRowCount(0); // Reset tabel
+        
+        // Looping data agenda untuk diparsing kedalam tabel
+        for (Agenda agenda : daftarAgenda) {
+            model.addRow(agenda.getDetail());
+        }
+    }
+    
+    public void tambahAgenda(Agenda agenda) {
+        daftarAgenda.add(agenda);
+        isiDataTabel();
+    }
 }
