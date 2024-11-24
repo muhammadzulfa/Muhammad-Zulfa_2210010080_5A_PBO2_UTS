@@ -405,7 +405,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void getAllData() {
         daftarAgenda = new ArrayList<>();
-        daftarAgenda.add(new AgendaPribadi("2024-11-24", "Liburan ke Bali", "Pergi bersama keluarga", "Pribadi", "Belum Selesai"));
+//        daftarAgenda.add(new AgendaPribadi("2024-11-24", "Liburan ke Bali", "Pergi bersama keluarga", "Pribadi", "Belum Selesai"));
         
         isiDataTabel();
     }

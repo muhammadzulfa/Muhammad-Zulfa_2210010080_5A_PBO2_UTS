@@ -1,3 +1,6 @@
+
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -88,11 +91,21 @@ public class Welcome extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
-        // Buka form dashboard
-        Dashboard formDashboard = new Dashboard();
-        formDashboard.setVisible(true);
-        
-        this.dispose();
+       // Mendapatkan input password dari field password
+        String passwordInput = new String(txtPassword.getPassword());  // Ganti dengan nama field password Anda
+
+        // Cek apakah password sesuai dengan yang diinginkan (misalnya "password123")
+        if (passwordInput.equals("admin")) {  // Ganti dengan password yang Anda tentukan
+            // Buka form dashboard jika password benar
+            Dashboard formDashboard = new Dashboard();
+            formDashboard.setVisible(true);
+
+            // Menutup form login saat ini
+            this.dispose();
+        } else {
+            // Jika password salah, tampilkan pesan error
+            JOptionPane.showMessageDialog(this, "Password salah.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnOkActionPerformed
 
     /**
