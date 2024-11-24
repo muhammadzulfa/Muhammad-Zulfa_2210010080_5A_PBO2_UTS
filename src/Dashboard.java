@@ -3,7 +3,13 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
+import com.google.gson.Gson;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -42,8 +48,8 @@ public class Dashboard extends javax.swing.JFrame {
         tblAgenda = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        menuEksporJSON = new javax.swing.JMenuItem();
+        menuImporJSON = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
@@ -136,11 +142,21 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenu1.setText("File");
 
-        jMenuItem1.setText("Ekspor .JSON");
-        jMenu1.add(jMenuItem1);
+        menuEksporJSON.setText("Ekspor .JSON");
+        menuEksporJSON.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuEksporJSONActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menuEksporJSON);
 
-        jMenuItem2.setText("Impor .JSON");
-        jMenu1.add(jMenuItem2);
+        menuImporJSON.setText("Impor .JSON");
+        menuImporJSON.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuImporJSONActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menuImporJSON);
 
         jMenuItem3.setText("Exit");
         jMenu1.add(jMenuItem3);
@@ -192,6 +208,36 @@ public class Dashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tblAgendaMouseClicked
 
+    private void menuEksporJSONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEksporJSONActionPerformed
+        // Membuka dialog untuk memilih lokasi file
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Pilih Lokasi untuk Menyimpan File JSON");
+        fileChooser.setSelectedFile(new java.io.File("agenda_data.json"));
+
+        int userSelection = fileChooser.showSaveDialog(this);
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            // Mendapatkan path file yang dipilih oleh pengguna
+            String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+
+            // Mengonversi data daftarAgenda menjadi format JSON menggunakan Gson
+            Gson gson = new Gson();
+            String json = gson.toJson(daftarAgenda);
+
+            // Menyimpan JSON ke dalam file
+            try (FileWriter fileWriter = new FileWriter(filePath)) {
+                fileWriter.write(json);
+                fileWriter.flush();
+                JOptionPane.showMessageDialog(this, "Data berhasil diekspor ke " + filePath);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat mengekspor data: " + e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_menuEksporJSONActionPerformed
+
+    private void menuImporJSONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuImporJSONActionPerformed
+        
+    }//GEN-LAST:event_menuImporJSONActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -233,13 +279,13 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JMenuItem menuEksporJSON;
+    private javax.swing.JMenuItem menuImporJSON;
     private javax.swing.JTable tblAgenda;
     // End of variables declaration//GEN-END:variables
 
