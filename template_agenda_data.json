@@ -1,0 +1,44 @@
+[
+    {
+        "tanggal": "2024-11-24",
+        "judul": "Liburan ke Bali",
+        "deskripsi": "Pergi bersama keluarga",
+        "kategori": "Pribadi",
+        "status": "Selesai"
+    },
+    {
+        "tanggal": "2024-11-30",
+        "judul": "Perkuliahan Sabtu 2",
+        "deskripsi": "Universitas Islam Kalimantan Muhammad Arysad Al-Banjari",
+        "kategori": "Pendidikan",
+        "status": "Belum Selesai"
+    },
+    {
+        "tanggal": "2024-11-25",
+        "judul": "Bekerja",
+        "deskripsi": "CV. Alidata Technology Solutions",
+        "kategori": "Pekerjaan",
+        "status": "Belum Selesai"
+    },
+    {
+        "tanggal": "2024-11-28",
+        "judul": "Panen Jeruk Nipis",
+        "deskripsi": "Panen Jeruk Nipis 100 KG untuk penjualan ke Pasar Pagi",
+        "kategori": "Pekerjaan",
+        "status": "Belum Selesai"
+    },
+    {
+        "tanggal": "2024-12-02",
+        "judul": "Deadline Proyek Aplikasi E-CUTI",
+        "deskripsi": "Aplikasi Cuti Pemkab Aceh Singkil",
+        "kategori": "Pekerjaan",
+        "status": "Belum Selesai"
+    },
+    {
+        "tanggal": "2024-12-10",
+        "judul": "Badminton",
+        "deskripsi": "Lapangan Tiga Bersaudara",
+        "kategori": "Hobi",
+        "status": "Belum Selesai"
+    }
+]

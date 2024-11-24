@@ -1,15 +1,23 @@
 
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 import javax.swing.JOptionPane;
+import java.io.FileReader;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
+import com.google.gson.JsonSyntaxException;
+import java.util.List;
+
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -235,7 +243,49 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_menuEksporJSONActionPerformed
 
     private void menuImporJSONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuImporJSONActionPerformed
-        
+         // Membuka dialog untuk memilih file
+        JFileChooser fileChooser = new JFileChooser();
+
+        // Menambahkan filter hanya untuk file JSON
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON Files", "json");
+        fileChooser.setFileFilter(filter);
+
+        // Menampilkan dialog file untuk memilih file
+        int result = fileChooser.showOpenDialog(this);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            // Mendapatkan file yang dipilih
+            File selectedFile = fileChooser.getSelectedFile();
+
+            // Mengimpor data dari file JSON yang dipilih
+            // Membaca file JSON dan mengonversinya menjadi ArrayList<Agenda>
+            try (FileReader reader = new FileReader(selectedFile.getAbsolutePath())) {
+                // Menghapus daftarAgenda yang ada terlebih dahulu
+                daftarAgenda.clear();
+
+                // Membaca dan mengonversi JSON ke dalam ArrayList<Agenda>
+                Gson gson = new Gson();
+                AgendaPribadi[] importedAgendaArray = gson.fromJson(reader, AgendaPribadi[].class);
+
+                // Jika data berhasil dibaca dan tidak kosong
+                if (importedAgendaArray != null && importedAgendaArray.length > 0) {
+                    // Mengonversi array ke ArrayList dan menambahkan data ke daftarAgenda
+                    ArrayList<AgendaPribadi> importedAgenda = new ArrayList<>(List.of(importedAgendaArray));
+                    daftarAgenda.addAll(importedAgenda); // Menambahkan data ke daftarAgenda
+
+                    // Memperbarui tampilan tabel
+                    isiDataTabel(); // Memperbarui tabel setelah data diimpor
+
+                    System.out.println("Data berhasil diimpor dari " + selectedFile.getAbsolutePath());
+                } else {
+                    System.out.println("File JSON kosong atau tidak berisi data yang valid.");
+                }
+            } catch (IOException e) {
+                System.out.println("Gagal membaca file JSON: " + e.getMessage());
+            } catch (JsonSyntaxException e) {
+                System.out.println("Format JSON tidak valid: " + e.getMessage());
+            }
+        }
     }//GEN-LAST:event_menuImporJSONActionPerformed
 
     /**
