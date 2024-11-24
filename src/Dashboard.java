@@ -277,4 +277,10 @@ public class Dashboard extends javax.swing.JFrame {
             isiDataTabel();
         }
     }
+    
+    public void hapusAgenda(int agendaIndex) {
+        daftarAgenda.remove(agendaIndex);
+        
+        isiDataTabel();
+    }
 }
