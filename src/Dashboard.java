@@ -59,7 +59,7 @@ public class Dashboard extends javax.swing.JFrame {
         menuEksporJSON = new javax.swing.JMenuItem();
         menuImporJSON = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        menuLogout = new javax.swing.JMenu();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -167,12 +167,41 @@ public class Dashboard extends javax.swing.JFrame {
         jMenu1.add(menuImporJSON);
 
         jMenuItem3.setText("Exit");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem3);
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Logout");
-        jMenuBar1.add(jMenu2);
+        menuLogout.setText("Logout");
+        menuLogout.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                menuLogoutItemStateChanged(evt);
+            }
+        });
+        menuLogout.addMenuListener(new javax.swing.event.MenuListener() {
+            public void menuCanceled(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuDeselected(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuSelected(javax.swing.event.MenuEvent evt) {
+                menuLogoutMenuSelected(evt);
+            }
+        });
+        menuLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuLogoutMouseClicked(evt);
+            }
+        });
+        menuLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLogoutActionPerformed(evt);
+            }
+        });
+        jMenuBar1.add(menuLogout);
 
         setJMenuBar(jMenuBar1);
 
@@ -288,6 +317,41 @@ public class Dashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_menuImporJSONActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void menuLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLogoutActionPerformed
+        
+    }//GEN-LAST:event_menuLogoutActionPerformed
+
+    private void menuLogoutItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_menuLogoutItemStateChanged
+        
+    }//GEN-LAST:event_menuLogoutItemStateChanged
+
+    private void menuLogoutMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_menuLogoutMenuSelected
+        
+    }//GEN-LAST:event_menuLogoutMenuSelected
+
+    private void menuLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuLogoutMouseClicked
+        // Menampilkan dialog konfirmasi
+        int option = JOptionPane.showConfirmDialog(this, 
+                "Apakah Anda yakin ingin logout?", 
+                "Konfirmasi", 
+                JOptionPane.YES_NO_OPTION, 
+                JOptionPane.QUESTION_MESSAGE);
+
+        // Jika pengguna memilih YES, buka form Welcome
+        if (option == JOptionPane.YES_OPTION) {
+            // Buka form welcome
+            Welcome formWelcome = new Welcome();
+            formWelcome.setVisible(true);
+
+            // Menutup form saat ini
+            this.dispose();
+        }
+    }//GEN-LAST:event_menuLogoutMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -327,7 +391,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnTambahAgenda;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
@@ -336,6 +399,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JMenuItem menuEksporJSON;
     private javax.swing.JMenuItem menuImporJSON;
+    private javax.swing.JMenu menuLogout;
     private javax.swing.JTable tblAgenda;
     // End of variables declaration//GEN-END:variables
 
